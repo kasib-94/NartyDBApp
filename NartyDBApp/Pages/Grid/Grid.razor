@@ -1,0 +1,90 @@
+﻿@using Syncfusion.Blazor.Grids
+@inject Narty.Service.Grid.GridService GridService
+@page "/Sprzet"
+@if (EditItem == false)
+{
+    <SfGrid  @ref="GridRef" DataSource="@Items" AllowPaging="true" >
+
+          <GridTemplates>
+        <ToolbarTemplate>
+            <SfToolbar>
+                <ToolbarEvents ></ToolbarEvents>
+                <ToolbarItems>
+                    <ToolbarItem Type="@ItemType.Button" PrefixIcon="e-icons e-add" OnClick="AddItem"></ToolbarItem>
+                </ToolbarItems>
+            </SfToolbar>
+        </ToolbarTemplate>
+    </GridTemplates>
+        <GridEditSettings ShowDeleteConfirmDialog="true" AllowAdding="true" AllowEditing="true" AllowDeleting="true"></GridEditSettings>
+        <GridEvents TValue="Item" CommandClicked="OnCommandClicked" ></GridEvents>
+        <GridColumns>
+            <GridColumn Field=@nameof(Item.ID) HeaderText="Id" IsPrimaryKey="true" TextAlign="TextAlign.Right" Visible="false"></GridColumn>
+            <GridColumn Field=@nameof(Item.Nazwa) HeaderText="Nazwa" Type="ColumnType.String" Width="120"></GridColumn>
+            <GridColumn Field=@nameof(Item.Opis) HeaderText="Opis" EditType="EditType.DefaultEdit" TextAlign="TextAlign.Right" Type="ColumnType.String"></GridColumn>
+            <GridColumn Field=@nameof(Item.NumerKatalogowy) HeaderText="Numer katalogowy" EditType="EditType.DropDownEdit" Format="C" TextAlign="TextAlign.Right" Type="ColumnType.String"></GridColumn>
+            <GridColumn>
+                <GridCommandColumns>
+                    <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-flat" })"></GridCommandColumn>
+                    <GridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-flat" })"></GridCommandColumn>
+                    <GridCommandColumn Type="CommandButtonType.Save" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-update", CssClass = "e-flat" })"></GridCommandColumn>
+                    <GridCommandColumn Type="CommandButtonType.Cancel" ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-cancel-icon", CssClass = "e-flat" })"></GridCommandColumn>
+                </GridCommandColumns>
+            </GridColumn>
+
+        </GridColumns>
+
+    </SfGrid>
+}
+else
+{
+    <EditItem  @ref="EditItemRef" 
+    Powrot="()=>{EditItem = false;StateHasChanged();}"
+          CurrentItem="CurrentItem"></EditItem>
+}
+
+
+@code {
+    public SfGrid<Item> GridRef;
+    public bool EditItem { get; set; } = false;
+    public EditItem EditItemRef { get; set; }
+    public List<Item> Items { get; set; }
+    public Item CurrentItem;
+
+    private async void OnCommandClicked(CommandClickEventArgs<Item> args)
+    {
+
+        if (args.CommandColumn.Type == CommandButtonType.Edit)
+        {
+            CurrentItem = args.RowData;
+            EditItem = true;
+        }
+        else if (args.CommandColumn.Type == CommandButtonType.Delete)
+        {
+            await  GridService.DeleteItemAsync(args.RowData.ID);
+        }
+        else if (args.CommandColumn.Type == CommandButtonType.Save)
+        {
+
+        }
+        else if (args.CommandColumn.Type == CommandButtonType.Cancel)
+        {
+
+        }
+        StateHasChanged();
+    }
+
+    public void AddItem()
+    {
+        CurrentItem = new();
+        EditItem = true;
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        
+        Items = GridService.GetItems();
+    }
+
+ 
+}

@@ -1,0 +1,49 @@
+﻿@using System.ComponentModel.DataAnnotations;
+@inject Narty.Service.Grid.GridService GridService
+
+@if (true)
+{
+    
+}
+<EditForm Model="@CurrentItem" OnSubmit="Potwierdz">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+       <div class="form-group">
+         <label for="first-name">Nazwa:</label>
+         <SfTextBox ID="nazwa" @bind-Value="@CurrentItem.Nazwa"></SfTextBox>
+     </div>
+    <div class="form-group">
+        <label for="Opis">Opis</label>
+        <SfTextBox ID="opis" @bind-Value="CurrentItem.Opis"></SfTextBox>
+    </div>
+    <div class="form-group">
+        <label for="last-name">Nr katologowy</label>
+        <SfNumericTextBox ID="nrKat" @bind-Value="CurrentItem.NumerKatalogowy"></SfNumericTextBox>
+    </div>
+    <div class="form-group">
+        <label for="last-name">Cena</label>
+        <SfNumericTextBox TValue="decimal" Format="###.##" Decimals="2"
+            ValidateDecimalOnType="true" 
+           
+            @bind-Value="CurrentItem.Cena"></SfNumericTextBox>
+    </div>
+         <SfButton>Zapisz</SfButton>
+    <SfButton OnClick="()=>Powrot.InvokeAsync()">Anuluj</SfButton>
+</EditForm>
+@code {
+    [Parameter]
+    public DB.Models.Item CurrentItem { get; set; }
+    [Parameter]
+    public EventCallback Powrot{ get; set; }
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    public void Potwierdz()
+    {
+        GridService.SaveItem(CurrentItem);
+        Powrot.InvokeAsync();
+    }
+}

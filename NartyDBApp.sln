@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NartyDBApp", "NartyDBApp\NartyDBApp.csproj", "{EAB9EDBD-C5FA-466B-A332-0F859D8738B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NartyDBApp", "NartyDBApp\NartyDBApp.csproj", "{EAB9EDBD-C5FA-466B-A332-0F859D8738B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Narty.DB", "Narty.DB\Narty.DB.csproj", "{B317E876-9C6F-4CC6-92CF-DACB10E4D17A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Narty.DB", "Narty.DB\Narty.DB.csproj", "{B317E876-9C6F-4CC6-92CF-DACB10E4D17A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
