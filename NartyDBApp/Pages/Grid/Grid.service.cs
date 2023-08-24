@@ -38,7 +38,7 @@ namespace Narty.Service.Grid
                 await _appDbContext.SaveChangesAsync();
             }
         }
-
+        //
         public List<Item> GetItems()
         {
             return _appDbContext.BasicItems.ToList();
